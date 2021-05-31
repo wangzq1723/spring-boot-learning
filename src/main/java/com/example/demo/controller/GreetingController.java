@@ -1,9 +1,8 @@
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.restservice.Greeting;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -20,5 +19,13 @@ public class GreetingController {
     @GetMapping("/greeting")
     public Greeting greet(@RequestParam(value = "name", defaultValue = "World") String name) {
         return new Greeting(counter.incrementAndGet(), String.format(template, name));
+    }
+
+    @PostMapping("/greeting")
+    public JSONObject add(@RequestBody Greeting greeting) {
+        System.out.println(greeting);
+        JSONObject ret = new JSONObject();
+        ret.put("id", counter.incrementAndGet());
+        return ret;
     }
 }
